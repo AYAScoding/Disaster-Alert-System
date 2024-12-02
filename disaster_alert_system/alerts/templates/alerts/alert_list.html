@@ -1,0 +1,6 @@
+<h1>Disaster Alerts</h1>
+<ul>
+  {% for alert in alerts %}
+    <li>{{ alert.type }} at {{ alert.location.name }} on {{ alert.date_issued }}</li>
+  {% endfor %}
+</ul>

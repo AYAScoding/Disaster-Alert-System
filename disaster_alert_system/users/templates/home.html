@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'images/dsa.jpg' %}" type="image/x-icon">
+
+</head>
+
+<body style="background-image: url('{% static 'images/alert.webp' %}'); background-size: cover; background-position: center;">
+
+        <div class="login-container">
+            {% if form.errors %}
+             <div class="alert alert-danger" id="error-alert">
+              {% for field in form %}
+                    {% for error in field.errors %}
+                       <p>{{ error }}</p>
+                    {% endfor %}
+                 {% endfor %}
+            </div>
+        {% endif %}
+
+        <h1>Welcome to the Disaster Alert System!</h1>
+
+        <p class="logout-link"><a href="{% url 'users:logout' %}">Logout</a></p>
+
+
+        <h2>Disaster Alerts</h2>
+        {% if alerts %}
+            <ul>
+                {% for alert in alerts %}
+                    <li>
+                        <strong>{{ alert.type }}</strong> - {{ alert.location.name }}<br>
+                        Severity: {{ alert.severity }}<br>
+                        {{ alert.description }}<br>
+                        Issued on: {{ alert.date_issued }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No alerts to display at the moment.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>

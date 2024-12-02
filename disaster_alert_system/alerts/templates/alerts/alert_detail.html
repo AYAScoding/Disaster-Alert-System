@@ -1,0 +1,19 @@
+<!-- alerts/templates/alerts/alert_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Detail</title>
+</head>
+<body>
+    <h1>{{ alert.type }} Alert - {{ alert.location.name }}</h1>
+    <p><strong>Description:</strong> {{ alert.description }}</p>
+    <p><strong>Severity:</strong> {{ alert.severity }}</p>
+    <p><strong>Date Issued:</strong> {{ alert.date_issued }}</p>
+    <p><strong>Location:</strong> {{ alert.location.name }}</p>
+    <p><strong>Latitude:</strong> {{ alert.location.latitude }}</p>
+    <p><strong>Longitude:</strong> {{ alert.location.longitude }}</p>
+    <a href="{% url 'alerts:alert_list' %}">Back to Alerts List</a>
+</body>
+</html>

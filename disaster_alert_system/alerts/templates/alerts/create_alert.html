@@ -1,0 +1,7 @@
+<!-- create_alert.html -->
+<h2>Create Disaster Alert</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Alert</button>
+</form>

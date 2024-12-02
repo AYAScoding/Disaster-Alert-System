@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/dsa.jpg' %}" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Sign Up</title>
+</head>
+
+<body style="background-image: url('{% static 'images/alert.webp' %}'); background-size: cover; background-position: center;">
+    <div class="login-container">
+        
+
+        <h1>Create An Account</h1>
+        <form method="POST" action="{% url 'users:register' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username"><i class='bx bx-user'></i> Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error-message" id="username-errors">
+                        {% for error in form.username.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_email"><i class='bx bx-envelope'></i> Email </label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="error-message" id="email-errors">
+                        {% for error in form.email.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_phone"><i class='bx bx-phone' ></i> Phone </label>
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                    <div class="error-message" id="phone-errors">
+                        {% for error in form.phone.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_location"><i class='bx bx-map' ></i> Location</label>
+                {{ form.location }}
+                {% if form.location.errors %}
+                    <div class="error-message" id="location-errors">
+                        {% for error in form.location.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password1"><i class='bx bx-lock-alt' ></i> Password</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div class="error-message" id="password1-errors">
+                        {% for error in form.password1.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password2"><i class='bx bxs-lock-alt' ></i> Password confirmation</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div class="error-message" id="password2-errors">
+                        {% for error in form.password2.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        
+            <p class="login-link">Already have an account? <a href="{% url 'users:login' %}">Login here</a></p>
+        </form>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const messagesDiv = document.getElementById('messages');
+            if (messagesDiv) {
+                setTimeout(() => {
+                    messagesDiv.style.display = 'none';
+                }, 3000); // Hide messages after 3 seconds
+            }
+        }
+    </script>
+
+</body>
+
+</html>
