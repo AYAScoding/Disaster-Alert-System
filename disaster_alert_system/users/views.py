@@ -32,6 +32,9 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                # This automatically manages the session
+                # Store only the user ID in the session
+                request.session['user_id'] = user.id
                 return redirect('users:home')
             else:
                messages.error(request, 'Invalid username or password')
@@ -47,3 +50,14 @@ def home(request):
 def logout_view(request):
     logout(request)
     return redirect('users:login')
+
+# session 
+def profile_view(request):
+    user_id = request.session.get('user_id')  # Retrieve the user ID from the session
+    if user_id:
+        user = User.objects.get(id=user_id)  # Query the database for the user
+        return render(request, 'home.html', {'user': user})
+    else:
+        return redirect('login')  # Redirect if no session exists
+    
+
