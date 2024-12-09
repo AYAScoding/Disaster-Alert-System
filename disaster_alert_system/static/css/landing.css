@@ -1,0 +1,93 @@
+/* landing.css */
+
+/* General Reset */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    background-image: url('../images/alert.webp');
+    background-repeat: no-repeat; /* Ensures no repeating */
+    background-size: cover; /* Ensures the image covers the entire screen */
+    background-position: center center; /* Centers the image */
+    background-attachment: fixed; /* Keeps the background in place while scrolling */
+    color: #ffffff;
+}
+
+/* Landing Container */
+.landing-container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    padding: 50px 20px;
+    border-radius: 15px;
+    max-width: 600px;
+    margin: 100px auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Headings and Text */
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #f1c40f; /* Golden color for highlight */
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: #dddddd; /* Soft white for readability */
+}
+
+/* Buttons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.button-container a { /* Apply styles to anchor tags inside .button-container */
+    font-size: 1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Make it look like a button */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary blue */
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Neutral gray */
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .button-container a {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}

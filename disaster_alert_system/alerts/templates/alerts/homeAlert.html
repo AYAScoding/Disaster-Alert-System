@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/homeAlert.css' %}">
+    <title>Alerts</title>
+</head>
+<body>
+    <div class="menu-container">
+        <!-- Menu Icon -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            &#9776; Menu
+        </div>
+        <!-- Collapsible Menu -->
+        <div class="menu-items" id="menuItems">
+            <a href="{% url 'users:home' %}"><i class="bx bx-home"></i> Home</a>
+            <a href="{% url 'alerts:homeAlerts' %}"> <i class='bx bx-error'></i> Alerts</a>
+            <a href="#"><i class="bx bx-phone"></i> Contact</a>
+            <!-- New Menu Items -->
+            <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
+        </div>
+    </div>
+
+    <div class="content" id="contentSection">
+        <h1>Welcome to your Alerts Section, {{ user.username }}</h1>
+        <h2>Alerts for {{ user.profile.location }}</h2>
+
+        <div class="alert-container">
+            {% if alerts %}
+                {% for alert in alerts %}
+                    <div class="alert {% if alert.severity == 'High' %}alert-error{% elif alert.severity == 'Medium' %}alert-warning{% else %}alert-success{% endif %}">
+                        <h4>{{ alert.type }} <span class="alert-severity">(Severity : {{ alert.severity }})</span></h4>
+                        <p>{{ alert.description }}</p>
+                        <p><strong>Issued on:</strong> {{ alert.date_issued }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info">
+                    <p>No alerts available for your location.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.classList.add('alert-visible');
+                }, 100); // Delay before showing the alert
+            });
+        });
+    </script>
+
+</body>
+</html>

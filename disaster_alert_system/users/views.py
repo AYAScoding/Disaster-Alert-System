@@ -4,12 +4,18 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from .forms import UserRegisterForm, LoginForm
+
+
+
 
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()  # The save method in the form now handles everything
+     
             return redirect('users:home')
         else:
             # Add messages for specific errors if needed
@@ -40,16 +46,20 @@ def login_view(request):
                messages.error(request, 'Invalid username or password')
         
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
 
     return render(request, 'registration/login.html', {'form': form})
 
+@login_required
 def home(request):
     return render(request, 'home.html')
 
+def landing_page(request):
+    return render(request, 'landing.html')
+
 def logout_view(request):
     logout(request)
-    return redirect('users:login')
+    return redirect('users:landing')
 
 # session 
 def profile_view(request):

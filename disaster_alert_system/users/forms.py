@@ -1,30 +1,35 @@
 from django.db import transaction
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from captcha.fields import CaptchaField
+
+class LoginForm(AuthenticationForm):
+    captcha = CaptchaField()  # Add CAPTCHA to the login form
 
 # Define the choices for the location dropdown
 LOCATION_CHOICES = [
-    ('girne', 'Girne'),
-    ('lefkoşa', 'Lefkoşa'),
-    ('lefke', 'Lefke'),
-    ('iskele', 'İskele'),
-    ('gazimağusa', 'Gazimağusa'),
-    ('güzelyurt', 'Güzelyurt'),
+    ('Girne', 'Girne'),
+    ('Lefkoşa', 'Lefkoşa'),
+    ('Lefke', 'Lefke'),
+    ('İskel', 'İskele'),
+    ('Gazimağusa', 'Gazimağusa'),
+    ('Güzelyurt', 'Güzelyurt'),
 ]
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
     phone = forms.IntegerField( required=True, help_text="Enter your phone number.")
     location = forms.ChoiceField(choices=LOCATION_CHOICES, required=True)
-
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'required': 'required'})
     )
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={'required': 'required'})
     )
+
+   
 
     class Meta:
         model = User

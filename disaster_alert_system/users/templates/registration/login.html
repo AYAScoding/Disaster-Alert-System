@@ -14,15 +14,6 @@
 <body style="background-image: url('{% static 'images/alert.webp' %}'); background-size: cover; background-position: center;">
     <div class="login-container">
         <h1>Log in</h1>
-        
-        <!-- Display message if invalid username or password -->
-        {% if messages %}
-            <div class="error-message">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
 
         <form method="POST">
             {% csrf_token %}
@@ -50,7 +41,19 @@
                     </div>
                 {% endif %}
             </div>
-
+            <!-- CAPTCHA Field -->
+            <div class="form-group">
+                <label for="id_captcha"><i class='bx bx-check-shield'></i> CAPTCHA</label>
+                {{ form.captcha }}
+                {% if form.captcha.errors %}
+                    <div class="error-message" id="captcha-errors">
+                        {% for error in form.captcha.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
             <button type="submit" class="btn btn-primary">Login</button>
         
             <p class="login-link">Don't have an account yet? <a href="{% url 'users:register' %}">Sign Up</a></p>

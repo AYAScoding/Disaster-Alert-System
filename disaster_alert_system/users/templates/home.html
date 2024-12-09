@@ -1,49 +1,79 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="icon" href="{% static 'images/dsa.jpg' %}" type="image/x-icon">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collapsible Menu</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
+<body>
 
-<body style="background-image: url('{% static 'images/alert.webp' %}'); background-size: cover; background-position: center;">
-
-        <div class="login-container">
-            {% if form.errors %}
-             <div class="alert alert-danger" id="error-alert">
-              {% for field in form %}
-                    {% for error in field.errors %}
-                       <p>{{ error }}</p>
-                    {% endfor %}
-                 {% endfor %}
-            </div>
-        {% endif %}
-
-        <h1>Welcome to the Disaster Alert System!</h1>
-
-        <p class="logout-link"><a href="{% url 'users:logout' %}">Logout</a></p>
-
-
-        <h2>Disaster Alerts</h2>
-        {% if alerts %}
-            <ul>
-                {% for alert in alerts %}
-                    <li>
-                        <strong>{{ alert.type }}</strong> - {{ alert.location.name }}<br>
-                        Severity: {{ alert.severity }}<br>
-                        {{ alert.description }}<br>
-                        Issued on: {{ alert.date_issued }}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No alerts to display at the moment.</p>
-        {% endif %}
+<div class="menu-container">
+    <!-- Menu Icon -->
+    <div class="menu-icon" onclick="toggleMenu()">
+        &#9776; Menu
     </div>
-</body>
+    <!-- Collapsible Menu -->
+    <div class="menu-items" id="menuItems">
+        <a href="{% url 'users:home' %}"><i class="bx bx-home"></i> Home</a>
+        <a href="{% url 'alerts:homeAlerts' %}"> <i class='bx bx-error'></i> Alerts</a>
+        <a href="#"><i class="bx bx-phone"></i> Contact</a>
+        <!-- New Menu Items -->
 
+        <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
+    </div>
+</div>
+
+<!-- Dashboard Content Section -->
+<div class="content" id="contentSection">
+    <!-- Default Content: Welcome Message -->
+    <h2>Welcome to the Disaster Alert System</h2>
+    <p>Stay informed and prepared for natural disasters. Check alerts and learn more about disaster preparedness!</p>
+
+    <!-- Image Carousel -->
+    
+    <div id="disasterImages" class="carousel-container">
+        <img src="https://images.pexels.com/photos/16105713/pexels-photo-16105713/free-photo-of-group-of-paramedics-walking-through-a-demolished-city.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Disaster 1" class="carousel-image">
+        <img src="https://images.pexels.com/photos/753619/pexels-photo-753619.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Disaster 2" class="carousel-image">
+        <img src="https://images.pexels.com/photos/12734151/pexels-photo-12734151.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Disaster 3" class="carousel-image">
+              <img src="https://images.pexels.com/photos/15823381/pexels-photo-15823381/free-photo-of-demolished-buildings-after-calamity.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Disaster 4" class="carousel-image">
+              <img src="https://images.pexels.com/photos/11477798/pexels-photo-11477798.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Disaster 5" class="carousel-image">
+              <img src="https://images.pexels.com/photos/7263811/pexels-photo-7263811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Disaster 6" class="carousel-image">
+        
+    </div>  
+</div>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('menuItems');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Function to show rotating images
+    let currentImageIndex = 0;
+    const images = document.querySelectorAll('.carousel-image');
+
+    function rotateImages() {
+        // Hide all images
+        images.forEach((image) => {
+            image.style.display = 'none';
+        });
+
+        // Show the current image
+        images[currentImageIndex].style.display = 'block';
+
+        // Update the current index to show the next image in the next interval
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+    }
+
+    // Call rotateImages every 3 seconds (3000ms)
+    setInterval(rotateImages, 3000);
+
+    // Initially show the first image
+    rotateImages();
+</script>
+
+</body>
 </html>

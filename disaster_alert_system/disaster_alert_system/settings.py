@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     
 
     # Project-specific apps
+   
     'alerts',
     'users',
     'notifications',
+    'captcha',
+
 ]
 
 MIDDLEWARE = [
@@ -55,7 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'users.middleware.SessionValidationMiddleware',
+    
 
 
 ]
@@ -143,15 +146,24 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # Adjust if necessary to point to your static directory
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+RECAPTCHA_PUBLIC_KEY = '6LdzA5UqAAAAAJi8Cow_KnLZaeTZZkgOwCdU_MYw'
+RECAPTCHA_PRIVATE_KEY = '6LcRE5UqAAAAAIhcoGigtMcfGL-_wy2MPDmAVibI'
+
+
+
 # settings.py
 LOGIN_REDIRECT_URL = 'home'  # Redirect to home page after login
-LOGOUT_REDIRECT_URL = 'login'  # Redirect to home page after logout
+LOGOUT_REDIRECT_URL = 'users:landing'  # Redirect to the landing page after logout
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -184,3 +196,8 @@ SESSION_COOKIE_AGE = 1800  # 30 minutes
 # Enable session expiry when the user closes the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
+
+
+CAPTCHA_LENGTH = 5
+CAPTCHA_IMAGE_SIZE = (400, 50)
+CAPTCHA_FONT_SIZE = 45

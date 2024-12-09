@@ -6,8 +6,15 @@ class SessionValidationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Skip session validation for public paths (e.g., login, register)
-        public_paths = [reverse('users:login'), reverse('users:register')]
-        if 'user_id' not in request.session and request.path not in public_paths:
+        # Define public paths that don't require authentication
+        public_paths = [
+            reverse('users:login'),
+            reverse('users:register'),
+            reverse('users:landing'),  # Include the landing page
+        ]
+
+        # Allow access to public paths without session validation
+        if request.path not in public_paths and 'user_id' not in request.session:
             return redirect('users:login')
+
         return self.get_response(request)
