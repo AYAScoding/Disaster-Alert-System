@@ -3,6 +3,6 @@ from .models import DisasterAlert
 
 @admin.register(DisasterAlert)
 class DisasterAlertAdmin(admin.ModelAdmin):
-    list_display = ('type', 'location' , 'severity', 'date_issued')
-    list_filter = ('location', 'type', 'severity')
+    list_display = ('type', 'location' , 'severity', 'date_issued','image')
+    list_filter = ('location', 'type','id', 'severity')
     search_fields = ('description',)

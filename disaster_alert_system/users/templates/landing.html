@@ -5,23 +5,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{% static 'dsa.jpg' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'images/dsa.jpg' %}" type="image/x-icon">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{% static 'css/landing.css' %}">
     <title>Disaster Alert System</title>
 </head>
 
 <body style="background-image: url('{% static 'images/alert.webp' %}'); background-size: cover; background-position: center;">
-    
-    <div class="landing-container">
-        <h1>Welcome to Disaster Alert System</h1>
-        <p>Stay informed, stay prepared, and stay safe! Join our platform to receive real-time alerts and resources to handle disasters effectively.</p>
 
-        <div class="button-container">
-            <a href="{% url 'users:register' %}" class="btn btn-primary">Sign Up</a>
-            <a href="{% url 'users:login' %}" class="btn btn-secondary">Log In</a>
-        </div>
+   <div class="landing">
+    <div class="top-right-buttons">
+        <button class="btn btn-primary" onclick="location.href='{% url 'users:register' %}'">Sign Up</button>
+        <button class="btn btn-secondary" onclick="location.href='{% url 'users:login' %}'">Log In</button>
     </div>
+    <div class="landing-container">
+
+        <h1 class="heading">Welcome to Disaster Alert System</h1>
+        <p class="subtext">Stay informed, stay prepared, and stay safe! Join our platform to receive real-time alerts and resources to handle disasters effectively.</p>
+    </div>
+</div>
+
 
 </body>
 

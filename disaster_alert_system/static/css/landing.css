@@ -17,7 +17,7 @@ body {
 /* Landing Container */
 .landing-container {
     text-align: center;
-    background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    background: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
     padding: 50px 20px;
     border-radius: 15px;
     max-width: 600px;
@@ -30,7 +30,7 @@ h1 {
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 20px;
-    color: #f1c40f; /* Golden color for highlight */
+    color: #ff6f00; /* Golden color for highlight */
 }
 
 p {
@@ -40,54 +40,40 @@ p {
     color: #dddddd; /* Soft white for readability */
 }
 
-/* Buttons */
-.button-container {
+/* Top-right buttons */
+.top-right-buttons {
+    position: absolute; /* Position relative to the container */
+    top: 20px; /* Space from the top */
+    right: 20px; /* Space from the right */
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    gap: 10px; /* Space between buttons */
 }
 
-.button-container a { /* Apply styles to anchor tags inside .button-container */
-    font-size: 1rem;
-    padding: 12px 25px;
+/* Buttons Styling */
+.btn {
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
+    font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    text-decoration: none; /* Remove underline */
-    display: inline-block; /* Make it look like a button */
 }
 
 .btn-primary {
-    background-color: #007bff; /* Primary blue */
-    color: #ffffff;
+    background-color: #ff6f00;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #e65c00;
 }
 
 .btn-secondary {
-    background-color: #6c757d; /* Neutral gray */
-    color: #ffffff;
+    background-color: #6c757d;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
 .btn-secondary:hover {
-    background-color: #5a6268; /* Darker gray on hover */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2.5rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
-
-    .button-container a {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
+    background-color: #5a6268;
 }

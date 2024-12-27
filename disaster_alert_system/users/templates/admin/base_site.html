@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+
+{% block branding %}
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">Disaster Alert System Administration</a></h1>
+{% endblock %}
+
+{% block nav-global %}
+    <ul class="nav navbar-nav">
+        <li><a href="{% url 'users:admin_dashboard' %}">Admin Dashboard</a></li>
+    </ul>
+{% endblock %}

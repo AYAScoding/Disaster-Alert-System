@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from captcha.fields import CaptchaField
+from phonenumber_field.formfields import PhoneNumberField
+from django.core.validators import RegexValidator
 
 class LoginForm(AuthenticationForm):
     captcha = CaptchaField()  # Add CAPTCHA to the login form
@@ -20,7 +22,6 @@ LOCATION_CHOICES = [
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    phone = forms.IntegerField( required=True, help_text="Enter your phone number.")
     location = forms.ChoiceField(choices=LOCATION_CHOICES, required=True)
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'required': 'required'})
@@ -33,46 +34,34 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'phone', 'location', 'password1', 'password2']
+        fields = ['username', 'email', 'location', 'password1', 'password2']
 
      
 
 
 
-    @transaction.atomic
-    def save(self, commit=True):
-        # Save the user instance first
-        user = super().save(commit=False)
-        user.email = self.cleaned_data['email']
+    from django.db import transaction
+from .models import Profile
 
-        if commit:
-            user.save()
+@transaction.atomic
+def save(self, commit=True):
+    user = super().save(commit=False)
+    user.email = self.cleaned_data['email']
 
-        # Safely access the phone and location fields
-        phone = self.cleaned_data.get('phone')
-        location = self.cleaned_data.get('location')
+    if commit:
+        user.save()
 
-        # Ensure values are provided before saving the profile
-        if phone is None or location is None:
-            raise ValueError("Phone and location must be provided.")
+    # Get the location value from the form
+    location = self.cleaned_data.get('location')
 
-        # Check if a profile already exists for the user, if so, update it
-        profile, created = Profile.objects.get_or_create(
-            user=user,
-            defaults={'phone': phone, 'location': location}
-        )
+    # Validate location before saving the profile
+    if not location:
+        raise ValueError("Location field is required.")
 
-        # If the profile was created, return the user
-        if created:
-            return user
-        
-        # If the profile already exists, just update the phone and location
-        profile.phone = phone
-        profile.location = location
-        profile.save()
+    # Use update_or_create to avoid duplicate profiles, only with location
+    Profile.objects.update_or_create(
+        user=user,
+        defaults={'location': location}
+    )
 
-        return user
-    
-
-    
-    
+    return user

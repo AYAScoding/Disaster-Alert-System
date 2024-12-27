@@ -45,18 +45,6 @@
             </div>
 
             <div class="form-group">
-                <label for="id_phone"><i class='bx bx-phone' ></i> Phone </label>
-                {{ form.phone }}
-                {% if form.phone.errors %}
-                    <div class="error-message" id="phone-errors">
-                        {% for error in form.phone.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
                 <label for="id_location"><i class='bx bx-map' ></i> Location</label>
                 {{ form.location }}
                 {% if form.location.errors %}

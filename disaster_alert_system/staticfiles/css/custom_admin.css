@@ -1,0 +1,68 @@
+/* General admin background and header styling */
+#header {
+    background-color: #ff6600; /* Orange */
+    border-bottom: 1px solid #bfbfbf; /* Light gray */
+}
+
+#branding h1 {
+    color: #ffffff; /* White text */
+}
+
+#branding .logo {
+    background-color: #ff4500; /* Slightly darker orange */
+}
+
+/* Sidebar background and text color */
+#sidebar {
+    background-color: #f2f2f2; /* Light gray */
+}
+
+#sidebar li a {
+    color: #666666; /* Dark gray */
+}
+
+#sidebar li a:hover {
+    background-color: #ff9966; /* Soft orange */
+    color: #ffffff; /* White text on hover */
+}
+
+/* Main content background and text */
+.module h2, .dashboard-module h2 {
+    background-color: #ffa366; /* Soft orange for section headers */
+    color: #ffffff; /* White text */
+}
+
+.module {
+    border: 1px solid #cccccc; /* Light gray border */
+    background-color: #ffffff; /* White background for modules */
+}
+
+/* Buttons */
+button, .button {
+    background-color: #ff8533; /* Orange */
+    border: 1px solid #cc6600; /* Darker orange */
+    color: #ffffff; /* White text */
+}
+
+button:hover, .button:hover {
+    background-color: #cc6600; /* Dark orange on hover */
+    color: #ffffff; /* White text */
+}
+
+/* Table styling */
+table {
+    border: 1px solid #cccccc; /* Light gray border */
+}
+
+table th {
+    background-color: #ff9966; /* Soft orange for headers */
+    color: #ffffff; /* White text */
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating light gray rows */
+}
+
+table tr:nth-child(odd) {
+    background-color: #ffffff; /* Alternating white rows */
+}

@@ -6,6 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, LoginForm
+from alerts.models import DisasterAlert
+
+
 
 
 
@@ -15,7 +18,7 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()  # The save method in the form now handles everything
-     
+            
             return redirect('users:home')
         else:
             # Add messages for specific errors if needed
@@ -57,6 +60,31 @@ def home(request):
 def landing_page(request):
     return render(request, 'landing.html')
 
+
+def edit_profile(request):
+    if request.method == "POST":
+       
+        password = request.POST.get("password")
+        location = request.POST.get("location")
+
+        user = request.user
+       
+
+        if password:
+            user.set_password(password)
+
+        # Assuming you have a Profile model with a location field
+        if hasattr(user, "profile") and location:
+            user.profile.location = location
+            user.profile.save()
+
+        user.save()
+
+        messages.success(request, "Profile updated successfully!")
+        return redirect("users:edit_profile")
+
+    return render(request, "users/edit_profile.html")
+
 def logout_view(request):
     logout(request)
     return redirect('users:landing')
@@ -71,3 +99,21 @@ def profile_view(request):
         return redirect('login')  # Redirect if no session exists
     
 
+def password_reset(request):
+    return render(request, 'password_reset.html')
+
+def admin_dashboard(request):
+    total_users = User.objects.count()
+    total_alerts = DisasterAlert.objects.count()
+    active_alerts = DisasterAlert.objects.filter(severity='High').count()
+    users = User.objects.all()
+    alerts = DisasterAlert.objects.all()
+
+    context = {
+        'total_users': total_users,
+        'total_alerts': total_alerts,
+        'active_alerts': active_alerts,
+        'users': users,
+        'alerts': alerts,
+    }
+    return render(request, 'users/admin_dashboard.html', context)

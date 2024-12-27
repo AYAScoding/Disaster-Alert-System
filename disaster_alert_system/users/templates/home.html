@@ -19,6 +19,10 @@
     <div class="menu-items" id="menuItems">
         <a href="{% url 'users:home' %}"><i class="bx bx-home"></i> Home</a>
         <a href="{% url 'alerts:homeAlerts' %}"> <i class='bx bx-error'></i> Alerts</a>
+        {% if user.is_staff or user.is_superuser %}
+        <a href="{% url 'users:admin_dashboard' %}"><i class='bx bx-user-pin'></i> Administration</a>
+        {% endif %}
+        <a href="{% url 'users:edit_profile' %}"><i class='bx bx-user'></i> Edit Profile</a>
         <a href="#"><i class="bx bx-phone"></i> Contact</a>
         <!-- New Menu Items -->
 
@@ -46,10 +50,7 @@
 </div>
 
 <script>
-    function toggleMenu() {
-        const menu = document.getElementById('menuItems');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-    }
+    
 
     // Function to show rotating images
     let currentImageIndex = 0;

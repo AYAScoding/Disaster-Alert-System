@@ -5,7 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/homeAlert.css' %}">
+    <link rel="icon" href="{% static 'images/dsa.jpg' %}" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homeAlert.css' %}">
     <title>Alerts</title>
 </head>
 <body>
@@ -18,6 +20,10 @@
         <div class="menu-items" id="menuItems">
             <a href="{% url 'users:home' %}"><i class="bx bx-home"></i> Home</a>
             <a href="{% url 'alerts:homeAlerts' %}"> <i class='bx bx-error'></i> Alerts</a>
+            {% if user.is_staff or user.is_superuser %}
+            <a href="{% url 'users:admin_dashboard' %}"><i class='bx bx-user-pin'></i> Administration</a>
+            {% endif %}
+            <a href="{% url 'users:edit_profile' %}"><i class='bx bx-user'></i> Edit Profile</a>
             <a href="#"><i class="bx bx-phone"></i> Contact</a>
             <!-- New Menu Items -->
             <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
@@ -31,8 +37,24 @@
         <div class="alert-container">
             {% if alerts %}
                 {% for alert in alerts %}
-                    <div class="alert {% if alert.severity == 'High' %}alert-error{% elif alert.severity == 'Medium' %}alert-warning{% else %}alert-success{% endif %}">
+                    <div class="alert 
+                                    {% if alert.severity == 'High' %}
+                                    alert-error
+                                {% elif alert.severity == 'Mediem High' %}
+                                    alert-warning-high
+                                {% elif alert.severity == 'Mediem' %}
+                                    alert-warning
+                                {% elif alert.severity == 'Mediem Low' %}
+                                    alert-warning-low
+                                {% else %}
+                                    alert-success
+                                {% endif %}">
+
                         <h4>{{ alert.type }} <span class="alert-severity">(Severity : {{ alert.severity }})</span></h4>
+                        
+                        {% if alert.image %}
+                            <img src="{{ alert.image.url }}" alt="{{ alert.type }} image" style="max-width: 100%; height: auto;"/>
+                        {% endif %}
                         <p>{{ alert.description }}</p>
                         <p><strong>Issued on:</strong> {{ alert.date_issued }}</p>
                     </div>

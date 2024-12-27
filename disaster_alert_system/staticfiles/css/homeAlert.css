@@ -8,26 +8,33 @@
 /* Body Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #333;
-    display: flex;
+    background-color: #444;
     color: #f0f0f0;
+    display: flex;
     line-height: 1.6;
 }
 
 /* Menu Container */
 .menu-container {
     width: 200px;
-    background-color: #444;
+    background-color: #333;
     color: #fff;
     padding: 15px;
     position: fixed;
     height: 100%;
 }
 
-.menu-container h1 {
+.menu-container .menu-icon {
     font-size: 1.5em;
-    margin-bottom: 20px;
+    cursor: pointer;
+    padding: 10px;
     text-align: center;
+    background-color: #444;
+    border-radius: 5px;
+}
+
+.menu-items {
+    margin-top: 20px;
 }
 
 .menu-items a {
@@ -37,34 +44,31 @@ body {
     margin: 10px 0;
     padding: 10px 15px;
     border-radius: 5px;
-    background-color: #555;
-    text-align: center;
+    background-color: #444;
+    text-align: left;
     transition: background-color 0.3s ease;
 }
 
 .menu-items a:hover {
-    background-color: #777;
+    background-color: #ff6f00;
 }
 
 /* Content Styling */
 .content {
-    margin-left: 220px;
+    margin-left: 200px;
     padding: 20px;
     flex-grow: 1;
 }
 
-.content h2, .content h3 {
-    text-align: center;
-    color: #ff6f00;
-    margin-bottom: 20px;
-}
-
-/* Alert Container */
+/* Alerts Container */
 .alert-container {
     display: flex;
     flex-wrap: wrap;
+    gap: 20px;
     justify-content: center;
-    gap: 15px;
+    margin-top: 20px;
+    margin-left: 90px;
+
 }
 
 /* Alert Box Styling */
@@ -76,27 +80,67 @@ body {
     text-align: left;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     font-size: 1.1em;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.alert h4 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.alert p {
+    margin-bottom: 5px;
 }
 
 /* Alert Types */
+/* Success message: A soft teal for success */
 .alert-success {
-    background-color: #4caf50;
-    color: white;
+    background-color: #264d40;  /* Dark teal */
+    color: #d1f2eb;            /* Soft teal text */
+    border: 2px solid #1a3a2d; /* Darker teal border */
 }
 
+/* Medium Low message: Muted gold */
+.alert-warning-low {
+    background-color: #665c36; /* Muted gold */
+    color: #f9e79f;            /* Soft golden text */
+    border: 2px solid #4a4227; /* Darker gold border */
+}
+
+/* Medium message: Muted orange */
 .alert-warning {
-    background-color: #ffc107;
-    color: #333;
+    background-color: #6e462e; /* Muted orange-brown */
+    color: #d9c29e;            /* Soft orange text */
+    border: 2px solid #513422; /* Darker orange-brown border */
 }
 
-.alert-error {
-    background-color: #f44336;
-    color: white;
+/* Medium High message: Muted coral */
+.alert-warning-high {
+    background-color: #7a3f3d; /* Muted coral */
+    color: #eebbb6;            /* Soft coral text */
+    border: 2px solid #582c2a; /* Darker coral border */
 }
+
+/* High error message: Deep red */
+.alert-error {
+    background-color: #5a2e2e; /* Deep red */
+    color: #e3a9a9;            /* Muted red text */
+    border: 2px solid #3e2020; /* Darker deep red border */
+}
+
 
 .alert-info {
     background-color: #2196f3;
     color: white;
+    border-left: 5px solid #1976d2;
+}
+
+/* Severity Indicator */
+.alert-severity {
+    font-weight: bold;
+    color: #ffeb3b;
 }
 
 /* Responsive Design */
@@ -120,4 +164,26 @@ body {
     .alert {
         width: 100%;
     }
+}
+
+/* Animation for Alerts */
+.alert-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Alert Dismiss Button */
+.alert button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.alert button:hover {
+    color: #f44336;
 }

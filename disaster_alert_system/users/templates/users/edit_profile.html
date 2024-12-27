@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+</head>
+<body>
+    <div class="menu-container">
+        <!-- Menu Icon -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            &#9776; Menu
+        </div>
+        <!-- Collapsible Menu -->
+        <div class="menu-items" id="menuItems">
+            <a href="{% url 'users:home' %}"><i class="bx bx-home"></i> Home</a>
+            <a href="{% url 'alerts:homeAlerts' %}"><i class='bx bx-error'></i> Alerts</a>
+            {% if user.is_staff or user.is_superuser %}
+                <a href="{% url 'users:admin_dashboard' %}"><i class='bx bx-user-pin'></i> Administration</a>
+            {% endif %}
+            <a href="{% url 'users:edit_profile' %}"><i class='bx bx-user'></i> Edit Profile</a>
+            <a href="#"><i class="bx bx-phone"></i> Contact</a>
+            <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="profile-container">
+            <h2>Edit Your Profile</h2>
+
+            <!-- Display success or error messages -->
+            {% if messages %}
+                <div id="success-message" class="alert alert-success">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'users:edit_profile' %}">
+                {% csrf_token %}
+
+                
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password">New Password:</label>
+                    <input type="password" id="password" name="password">
+                    <small>Leave empty to keep your current password</small>
+                </div>
+
+                <!-- Location Field -->
+                <div class="form-group">
+                    <label for="location">Current Location:</label>
+                    <select id="location" name="location" required>
+                        <option value="" disabled {% if not user.profile.location %}selected{% endif %}>Select your location</option>
+                        {% for code, name in user.profile.LOCATION_CHOICES %}
+                            <option value="{{ code }}" {% if user.profile.location == code %}selected{% endif %}>
+                                {{ name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+
+                <button type="submit" class="btn-save">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to hide the success message after 2 minutes (120000 milliseconds)
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const message = document.getElementById('success-message');
+            if (message) {
+                setTimeout(function() {
+                    message.style.display = 'none';
+                }, 120000); // 120000 milliseconds = 2 minutes
+            }
+        });
+
+        // JavaScript to toggle menu visibility
+        function toggleMenu() {
+            const menu = document.getElementById('menuItems');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

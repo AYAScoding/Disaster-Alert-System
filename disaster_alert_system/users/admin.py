@@ -1,16 +1,23 @@
 from django.contrib import admin
 from .models import Profile
 
+
+
+admin.site.site_header = "Disaster Alert System Administration"
+admin.site.site_title = "Disaster Alert Admin Portal"
+admin.site.index_title = "Welcome to the Disaster Alert Admin Dashboard"
+
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     # Display user attributes (username, email) and profile attributes (phone, location)
-    list_display = ['user', 'get_username', 'get_email', 'phone', 'location']
+    list_display = ['user', 'get_username', 'get_email', 'location']
     
     # Filter by location
     list_filter = ['location']
     
     # Enable search on user attributes (username, email), and profile attributes (phone, location)
-    search_fields = ['user__username', 'user__email', 'phone', 'location']
+    search_fields = ['user__username', 'user__email', 'location']
 
 
 
