@@ -85,15 +85,15 @@ body {
 }
 
 /* Welcome Message Styling */
-.content h2 {
+.content h1 {
     font-size: 2em;
     color: #ff6f00;
     margin-bottom: 15px;
-  text-align: center;
+    text-align: center;
 }
 
 .content p {
-    font-size: 1.1em;
+    font-size: 1.4em;
     color: white;
   text-align: center;
 }
@@ -136,3 +136,4 @@ body {
     margin-top: 20px;
 }
 
+/*protocol*/

@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Information</title>
+    <link rel="stylesheet" href="{% static 'css/contacts.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+   
+</head>
+
+<body>
+
+
+    <div class="menu-container">
+        <!-- Menu Icon -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            &#9776; Menu
+        </div>
+        <!-- Collapsible Menu -->
+        <div class="menu-items" id="menuItems">
+            <a href="{% url 'users:home' %}"><i class="bx bx-home"></i> Home</a>
+            <a href="{% url 'alerts:homeAlerts' %}"> <i class='bx bx-error'></i> Alerts</a>
+            {% if user.is_staff or user.is_superuser %}
+            <a href="{% url 'users:admin_dashboard' %}"><i class='bx bx-user-pin'></i> Administration</a>
+            {% endif %}
+            <a href="{% url 'users:edit_profile' %}"><i class='bx bx-user'></i> Edit Profile</a>
+            <a href="{% url 'users:contacts' %}"><i class="bx bx-phone"></i> Contact</a>
+            <!-- New Menu Items -->
+    
+            <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
+        </div>
+    </div>
+
+<div class="content" id="contentSection">
+    <div class="contact-container">
+        <h1>Emergency Contacts</h1>
+        <ul>
+            {% for contact in contacts %}
+                <li>
+                    <h3>{{ contact.name }}</h3>
+                    <p>Phone: {{ contact.phone }}</p>
+                    <p>Email: <a href="mailto:{{ contact.email }}">{{ contact.email }}</a></p>
+                </li>
+            {% endfor %}
+        </ul>
+       
+    </div>
+</div>
+</body>
+
+</html>

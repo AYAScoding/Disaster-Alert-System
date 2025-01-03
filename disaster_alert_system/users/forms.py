@@ -6,6 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from captcha.fields import CaptchaField
 from phonenumber_field.formfields import PhoneNumberField
 from django.core.validators import RegexValidator
+from django.db import transaction
+from .models import Profile
 
 class LoginForm(AuthenticationForm):
     captcha = CaptchaField()  # Add CAPTCHA to the login form
@@ -30,38 +32,30 @@ class UserRegisterForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={'required': 'required'})
     )
 
-   
-
     class Meta:
         model = User
         fields = ['username', 'email', 'location', 'password1', 'password2']
 
-     
+    @transaction.atomic
+    def save(self, commit=True):
+        # Save the User instance
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
 
+        if commit:
+            user.save()
 
+        # Get the location value from the form
+        location = self.cleaned_data.get('location')
 
-    from django.db import transaction
-from .models import Profile
+        # Validate location before saving the profile
+        if not location:
+            raise ValueError("Location field is required.")
 
-@transaction.atomic
-def save(self, commit=True):
-    user = super().save(commit=False)
-    user.email = self.cleaned_data['email']
+        # Create or update the Profile instance
+        Profile.objects.update_or_create(
+            user=user,
+            defaults={'location': location}
+        )
 
-    if commit:
-        user.save()
-
-    # Get the location value from the form
-    location = self.cleaned_data.get('location')
-
-    # Validate location before saving the profile
-    if not location:
-        raise ValueError("Location field is required.")
-
-    # Use update_or_create to avoid duplicate profiles, only with location
-    Profile.objects.update_or_create(
-        user=user,
-        defaults={'location': location}
-    )
-
-    return user
+        return user

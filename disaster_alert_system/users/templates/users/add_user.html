@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/edit_user.css' %}">
+    <title>Add User</title>
+</head>
+<body>
+  
+  
+  <div class="menu-container">
+        <!-- Menu Icon -->
+        <div class="menu-icon" onclick="toggleMenu()">&#9776; Menu</div>
+        <!-- Collapsible Menu -->
+        <div class="menu-items" id="menuItems">
+            <a href="{% url 'users:home' %}"><i class="bx bx-home"></i> Home</a>
+            <a href="{% url 'alerts:homeAlerts' %}"><i class='bx bx-error'></i> Alerts</a>
+            {% if user.is_staff or user.is_superuser %}
+            <a href="{% url 'users:admin_dashboard' %}"><i class='bx bx-user-pin'></i> Administration</a>
+            {% endif %}
+            <a href="{% url 'users:edit_profile' %}"><i class='bx bx-user'></i> Edit Profile</a>
+            <a href="#"><i class="bx bx-phone"></i> Contact</a>
+            <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
+        </div>
+    </div>
+    
+    <div class="content" id="contentSection">
+        
+        <form method="post">
+            <h2>Add New User</h2>
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" name="username" placeholder="Enter Username" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="Enter Email" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Enter Password" required>
+            <br>
+            <label for="is_staff">Access to Administration:</label>
+            <input type="checkbox" name="is_staff">
+            <br>
+            <button type="submit">Save Changes</button>
+            <a href="{% url 'users:admin_dashboard' %}" class="btn">Cancel</a>
+        </form>
+        
+
+      </div>
+</body>
+</html>
+
+
+
+
+

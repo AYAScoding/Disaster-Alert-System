@@ -12,7 +12,7 @@
 <body>
     <div class="menu-container">
         <!-- Menu Icon -->
-        <div class="menu-icon" onclick="toggleMenu()">
+        <div class="menu-icon" >
             &#9776; Menu
         </div>
         <!-- Collapsible Menu -->
@@ -23,7 +23,7 @@
                 <a href="{% url 'users:admin_dashboard' %}"><i class='bx bx-user-pin'></i> Administration</a>
             {% endif %}
             <a href="{% url 'users:edit_profile' %}"><i class='bx bx-user'></i> Edit Profile</a>
-            <a href="#"><i class="bx bx-phone"></i> Contact</a>
+            <a href="{% url 'users:contacts' %}"><i class="bx bx-phone"></i> Contact</a>
             <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
         </div>
     </div>
@@ -36,7 +36,9 @@
             {% if messages %}
                 <div id="success-message" class="alert alert-success">
                     {% for message in messages %}
-                        <p>{{ message }}</p>
+                        {% if message.tags == 'success' %}
+                            <p>{{ message }}</p>
+                        {% endif %}
                     {% endfor %}
                 </div>
             {% endif %}
@@ -78,15 +80,12 @@
             if (message) {
                 setTimeout(function() {
                     message.style.display = 'none';
-                }, 120000); // 120000 milliseconds = 2 minutes
+                }, 15000); 
             }
         });
 
-        // JavaScript to toggle menu visibility
-        function toggleMenu() {
-            const menu = document.getElementById('menuItems');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-        }
+        
+        
     </script>
 </body>
 </html>

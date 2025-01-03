@@ -1,0 +1,81 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if form.instance.id %}Edit Alert{% else %}Add Alert{% endif %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/edit_alert.css' %}">
+
+</head>
+<body>
+    <div class="menu-container">
+        <!-- Menu Icon -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            &#9776; Menu
+        </div>
+        <!-- Collapsible Menu -->
+        <div class="menu-items" id="menuItems">
+            <a href="{% url 'users:home' %}"><i class="bx bx-home"></i> Home</a>
+            <a href="{% url 'alerts:homeAlerts' %}"> <i class='bx bx-error'></i> Alerts</a>
+            {% if user.is_staff or user.is_superuser %}
+            <a href="{% url 'users:admin_dashboard' %}"><i class='bx bx-user-pin'></i> Administration</a>
+            {% endif %}
+            <a href="{% url 'users:edit_profile' %}"><i class='bx bx-user'></i> Edit Profile</a>
+            <a href="#"><i class="bx bx-phone"></i> Contact</a>
+            <!-- New Menu Items -->
+            <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
+        </div>
+    </div>
+
+    <div class="content">
+        
+        
+        <!-- Back Button -->
+        
+        
+        <form method="post" enctype="multipart/form-data">
+            <h2>Add New Alert</h2>
+            {% csrf_token %}
+            
+            <label for="type">Alert Type</label>
+            <select id="type" name="type">
+                {% for choice, label in form.type.field.choices %}
+                    <option value="{{ choice }}" {% if form.type.value == choice %} selected {% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="description">Description</label>
+            {{ form.description }}
+            
+            <label for="location">Location</label>
+            <select id="location" name="location">
+                {% for choice, label in form.location.field.choices %}
+                    <option value="{{ choice }}" {% if form.location.value == choice %} selected {% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="severity">Severity</label>
+            <select id="severity" name="severity">
+                {% for choice, label in form.severity.field.choices %}
+                    <option value="{{ choice }}" {% if form.severity.value == choice %} selected {% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="image"> Select Image : {{ form.image }}</label>
+            
+            
+            <label for="date_issued"> Date Issued : {{ form.date_issued }}</label>
+            
+            <br>
+            
+            <button type="submit">Save</button>
+            <a href="{% url 'users:admin_dashboard' %}" class="btn">Cancel</a>
+        </form>
+        
+    </div>
+
+    <script>
+        // Optional JS for functionality (e.g., for menu toggle)
+    </script>
+</body>
+</html>

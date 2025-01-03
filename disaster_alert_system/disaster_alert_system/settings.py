@@ -97,12 +97,12 @@ WSGI_APPLICATION = 'disaster_alert_system.wsgi.application'
 }"""
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use 'mysql' here
+        'ENGINE': 'django.db.backends.mysql',  
         'NAME': 'disaster_alert_system',
         'USER': 'root',
         'PASSWORD': 'SQL@4PASSword',
-        'HOST': 'localhost',  # Or the host where your database server is running
-        'PORT': '3307',  # Default MySQL port
+        'HOST': 'localhost', 
+        'PORT': '3307', 
     }
 }
 

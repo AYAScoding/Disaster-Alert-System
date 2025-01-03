@@ -16,42 +16,43 @@
         <h1>Log in</h1>
 
         <form method="POST">
-            {% csrf_token %}
             
             <div class="form-group">
+                {% if messages %}              
+                    <div id="userError">                        
+                        <em> Invalid username or password</em>
+                    </div>
+                 {% endif %}
                 <label for="id_username"><i class='bx bx-user'></i> Username</label>
                 {{ form.username }}
-                {% if form.username.errors %}
-                <div class="error-message" id="username-errors">
-                    {% for error in form.username.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-                {% endif %}
+                {% csrf_token %}
+               
+                
             </div>
-
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Get the container of messages
+                    const errorMessages = document.getElementById("userError");
+            
+                    if (errorMessages) {
+                        // Set a timeout to hide the messages after 3.5 seconds
+                        setTimeout(function () {
+                            errorMessages.style.display = "none";
+                        }, 5000);
+                    }
+                });
+            </script>
             <div class="form-group">
                 <label for="id_password"><i class='bx bx-lock-alt' ></i> Password</label>
                 {{ form.password }}
-                {% if form.password.errors %}
-                    <div class="error-message" id="password-errors">
-                        {% for error in form.password.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+               
             </div>
+            
             <!-- CAPTCHA Field -->
             <div class="form-group">
                 <label for="id_captcha"><i class='bx bx-check-shield'></i> CAPTCHA</label>
                 {{ form.captcha }}
-                {% if form.captcha.errors %}
-                    <div class="error-message" id="captcha-errors">
-                        {% for error in form.captcha.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                
             </div>
             
             <button type="submit" class="btn btn-primary">Login</button>
@@ -60,8 +61,10 @@
             <p class="login-link">Forgot Password ?<a href="{% url 'password_reset' %}"> Reset</a>
             </p>
         </form>
-    </div>
 
+
+    </div>
+    
 </body>
 
 </html>

@@ -19,13 +19,13 @@
             <a href="{% url 'users:admin_dashboard' %}"><i class='bx bx-user-pin'></i> Administration</a>
             {% endif %}
             <a href="{% url 'users:edit_profile' %}"><i class='bx bx-user'></i> Edit Profile</a>
-            <a href="#"><i class="bx bx-phone"></i> Contact</a>
+            <a href="{% url 'users:contacts' %}"><i class="bx bx-phone"></i> Contact</a>
             <a href="{% url 'users:logout' %}"><i class='bx bx-exit'></i> Exit</a>
         </div>
     </div>
 
     <div class="content" id="contentSection">
-        <h1 class="text-center">Admin Dashboard</h1>
+        <h1 class="text-center"><strong>Admin Dashboard</strong></h1>
         <div class="dashboard">
             <div class="card">
                 <h4>Total Users</h4>
@@ -42,20 +42,22 @@
            
         </div>
         <div class="quick-links text-center">
-            <a href="{% url 'admin:alerts_disasteralert_add' %}" class="btn">Add New Alert</a>
-            <a href="{% url 'admin:auth_user_add' %}" class="btn">Add New User</a>
+            <a href="{% url 'users:add_user' %}" class="btn">Add New User</a>
+            <a href="{% url 'alerts:add_alert' %}" class="btn">Add New Alert</a>
+            
+
         </div>
         <div class="tables-section">
             <div class="tables-container">
                 <!-- Users Table -->
                 <div class="table-wrapper">
-                    <h2> Users</h2>
+                    <h2> <strong>Users</strong></h2>
                     <table class="styled-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Username</th>
                                 <th>Email</th>
+                                <th>Location</th>
                                 <th>Staff</th>
                                 <th>Actions</th>
                             </tr>
@@ -63,14 +65,13 @@
                         <tbody>
                             {% for user in users %}
                             <tr>
-                                <td>{{ user.id }}</td>
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.email }}</td>
+                                <td>{{ user.profile.location }}</td>
                                 <td>{{ user.is_staff }}</td>
                                 <td>
-                                    <a href="{% url 'admin:auth_user_change' user.id %}">Edit</a> |
-                                    <a href="{% url 'admin:auth_user_delete' user.id %}">Delete</a>
-                                </td>
+                                    <a href="{% url 'users:edit_user' user.id %}">Edit</a> |
+                                    <a href="{% url 'users:delete_user' user.id %}">Delete</a>                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -79,7 +80,7 @@
 
                 <!-- Alerts Table -->
                 <div class="table-wrapper">
-                    <h2> Alerts</h2>
+                    <h2><strong> Alerts</strong></h2>
                     <table class="styled-table">
                         <thead>
                             <tr>
@@ -87,7 +88,7 @@
                                 <th>Type</th>
                                 
                                 <th>Location</th>
-                                <th>Severity</th>
+                                <th>Date Issued</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -98,10 +99,11 @@
                                 <td>{{ alert.type }}</td>
                                 
                                 <td>{{ alert.location }}</td>
-                                <td>{{ alert.severity }}</td>
+                                <td>{{ alert.date_issued }}</td>
                                 <td>
-                                    <a href="{% url 'admin:alerts_disasteralert_change' alert.id %}">Edit</a> |
-                                    <a href="{% url 'admin:alerts_disasteralert_delete' alert.id %}">Delete</a>
+                                    <a href="{% url 'alerts:edit_alert' alert.id %}">Edit</a> |
+                                    <a href="{% url 'alerts:delete_alert' alert.id %}">Delete</a>
+
                                 </td>
                             </tr>
                             {% endfor %}

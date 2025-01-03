@@ -7,10 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, LoginForm
 from alerts.models import DisasterAlert
-
-
-
-
+from django.shortcuts import get_object_or_404
 
 
 def register(request):
@@ -19,6 +16,15 @@ def register(request):
         if form.is_valid():
             form.save()  # The save method in the form now handles everything
             
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')  # Password1 is used for UserCreationForm
+            user = authenticate(request, username=username, password=password)
+            
+            if user is not None:
+                # Log in the user and set session data
+                login(request, user)
+                request.session['user_id'] = user.id  # Store user ID in the session
+
             return redirect('users:home')
         else:
             # Add messages for specific errors if needed
@@ -47,10 +53,11 @@ def login_view(request):
                 return redirect('users:home')
             else:
                messages.error(request, 'Invalid username or password')
-        
+        else:
+            messages.error(request,'Invalid username or password')            
+            form = LoginForm()           
     else:
         form = LoginForm()
-
     return render(request, 'registration/login.html', {'form': form})
 
 @login_required
@@ -73,7 +80,7 @@ def edit_profile(request):
         if password:
             user.set_password(password)
 
-        # Assuming you have a Profile model with a location field
+       
         if hasattr(user, "profile") and location:
             user.profile.location = location
             user.profile.save()
@@ -117,3 +124,74 @@ def admin_dashboard(request):
         'alerts': alerts,
     }
     return render(request, 'users/admin_dashboard.html', context)
+
+
+def admin_check(user):
+    return user.is_staff or user.is_superuser
+
+
+def delete_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    if request.method == "POST":
+        user.delete()
+        
+        return redirect("users:admin_dashboard")
+
+    return render(request, "users/delete_user.html", {"user": user})
+
+
+def add_user(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        is_staff = request.POST.get("is_staff") == "on"
+
+        if username and email and password:
+            new_user = User.objects.create_user(username=username, email=email, password=password)
+            new_user.is_staff = is_staff
+            new_user.save()
+           
+        else:
+            messages.error(request, "Please fill in all fields.")
+
+        return redirect("users:admin_dashboard")
+    
+    return render(request, "users/add_user.html")
+
+
+def edit_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    if request.method == "POST":
+        user.username = request.POST.get("username", user.username)
+        user.email = request.POST.get("email", user.email)
+        password = request.POST.get("password")
+
+        if password:
+            user.set_password(password)
+
+        user.is_staff = request.POST.get("is_staff") == "on"
+        user.save()
+
+        
+        return redirect("users:admin_dashboard")
+
+    return render(request, "users/edit_user.html", {"user": user})
+
+
+
+def contacts(request):
+    # Sample contact data
+    contact_list = [
+        
+    {"name": "Fire Department", "phone": "199", "email": "firedept@northcyprus.gov"},
+    {"name": "Police Department", "phone": "155", "email": "police@northcyprus.gov"},
+    {"name": "Medical Emergency", "phone": "112", "email": "ambulance@northcyprus.gov"}
+
+
+    ]
+    return render(request, 'users/contacts.html', {'contacts': contact_list})
+
+
