@@ -25,13 +25,78 @@ def homeAlert(request):
 
 def add_alert(request):
     if request.method == 'POST':
-        form = DisasterAlertForm(request.POST,request.FILES)
+        form = DisasterAlertForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            alert = form.save()  # Save the alert instance
+            notify_users(alert)  # Call the function to send email notifications
             return redirect('users:admin_dashboard')
     else:
         form = DisasterAlertForm()
     return render(request, 'alerts/add_alert.html', {'form': form})
+
+
+
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from users.models import Profile
+from django.core.mail import EmailMultiAlternatives
+
+
+def notify_users(alert):
+    """
+    Notify users via email when an alert is created for their location.
+    """
+    # Fetch profiles whose location matches the alert location
+    profiles = Profile.objects.filter(location=alert.location)
+
+    for profile in profiles:
+        user = profile.user  # Get the related User instance
+        if user.email:  # Ensure the user has an email address
+            subject = f"New {alert.type} Alert in {alert.location}"
+            message = f"""
+            Dear {user.username},
+
+            A new alert has been issued for your location:
+
+            - Type: {alert.type}
+            - Severity: {alert.severity}
+
+            - Description: {alert.description}
+
+            Stay safe and take all necessary precautions.
+
+            Best regards,
+            Disaster Alert System Team
+            """
+             # HTML version of the email
+            html_content = f"""
+            <html>
+            <body>
+                <h2 style="color: #2c3e50;">Dear {user.username},</h2>
+                <p>A new alert has been issued for your location:</p>
+                <ul>
+                    <li><strong>Type:</strong> {alert.type}</li>
+                    <li><strong>Severity:</strong> {alert.severity}</li>
+                    <li><strong>Description:</strong> {alert.description}</li>
+                </ul>
+                <p style="color: #e74c3c;">Stay safe and take all necessary precautions.</p>
+                <br>
+                <p>Best regards,</p>
+                <p style="font-weight: bold;">Disaster Alert System Team</p>
+            </body>
+            </html>
+            """
+
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    'losvs213@gmail.com',  # Your configured sender email
+                    [user.email],  # Send to the user's email
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f"Failed to send email to {user.email}: {e}")
 
 # Edit an existing alert
 def edit_alert(request, alert_id):
