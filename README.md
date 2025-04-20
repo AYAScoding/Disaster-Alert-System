@@ -40,6 +40,8 @@ A Django-based web application that provides real-time, location-based disaster 
     python manage.py runserver
 
 
-📌 Notes
+📌 Notes:
+
 Only superusers (admins) can create and manage alerts.
+
 Users receive alerts based on their selected location during registration.
